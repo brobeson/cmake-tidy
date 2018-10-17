@@ -1,9 +1,14 @@
 #!/usr/bin/env python3
 
 import argparse
+import os
 import sys
 
 __version__ = '0.0.0'
+
+def exit_if_arguments_are_invalid(arguments):
+    if not os.path.isfile(arguments['files']):
+        sys.exit('error: ' + arguments['files'] + ' does not exist.')
 
 def make_parser():
     parser = argparse.ArgumentParser(
@@ -14,11 +19,48 @@ def make_parser():
         help='Display the version, and exit.')
     parser.add_argument('files',
         default='./CMakeLists.txt',
-        nargs='*',
+        #nargs='*',
         help='The CMake files to analyze. The default is ./CMakeLists.txt')
     return parser
 
 if __name__ == '__main__':
     parser = make_parser()
-    arguments = parser.parse_args()
+    arguments = vars(parser.parse_args())
+    exit_if_arguments_are_invalid(arguments)
+
+    with open(arguments['files'], 'r') as f:
+        text = f.read()
+
+    start = text.find('target_link_libraries')
+    if start < 0:
+        print('No dependencies')
+        sys.exit()
+    print(start)
+    start = text.find('(', start)
+    print(start)
+    end = text.find(')', start)
+    print(end)
+    parameters = text[start + 1:end]
+    print(parameters)
+
+    # strip leading and trailing white space
+    parameters = parameters.strip()
+    print(parameters)
+
+    # strip the target
+    parameters = parameters.split()
+    print(parameters)
+    parameters = parameters[1:]
+    print(parameters)
+
+    # gather public dependencies
+    if 'PUBLIC' in parameters:
+        print('found public')
+    if 'PRIVATE' in parameters:
+        print('found private')
+    if 'INTERFACE' in parameters:
+        print('found interface')
+
+    #file_text = open(arguments['files'], 'r')
+    #print(file_text)
     sys.exit()
