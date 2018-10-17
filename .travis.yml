@@ -1,4 +1,15 @@
 language: python
+git:
+    quiet: true
+    submodules: false
+branches:
+    only:
+        - /.*/
 python:
+    - '3.3'
+    - '3.4'
+    - '3.5'
     - '3.6'
-script: cmake-tidy/cmake-tidy
+    - '3.7-dev'
+script:
+    - chmod 744 lint.sh && ./lint.sh
