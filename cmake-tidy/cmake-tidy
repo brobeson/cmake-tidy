@@ -2,8 +2,8 @@
 
 import argparse
 import os
-import re
 import sys
+import parameter_sorting
 
 __version__ = '0.0.0'
 
@@ -24,22 +24,6 @@ def make_parser():
         help='The CMake files to analyze. The default is ./CMakeLists.txt')
     return parser
 
-# TODO handle split scopes: PUBLIC ... PRIVATE ... PUBLIC ...
-def gather_dependencies(scope, parameters):
-    if scope in parameters:
-        scope_index = parameters.index(scope)
-        end = scope_index + 1
-        while end < len(parameters) and (parameters[end] != 'PUBLIC' and parameters[end] !=
-                'PRIVATE' and parameters[end] != 'INTERFACE'):
-            end = end + 1
-        dependencies = parameters[scope_index + 1:end]
-        return dependencies
-
-def sort_dependencies(dependencies):
-    if dependencies is None:
-        return None
-    return sorted(dependencies, key=str.lower)
-
 if __name__ == '__main__':
     parser = make_parser()
     arguments = vars(parser.parse_args())
@@ -47,49 +31,6 @@ if __name__ == '__main__':
 
     with open(arguments['files'], 'r') as f:
         text = f.read()
+    text = parameter_sorting.sort(text)
     print(text)
-    print('\n\n')
-
-    start = text.find('target_link_libraries')
-    if start < 0:
-        print('No dependencies')
-        sys.exit()
-    start = text.find('(', start)
-    end = text.find(')', start)
-    parameter_text = text[start + 1:end]
-
-    # strip comments
-    comment_pattern = re.compile('#.*\n')
-    parameters = comment_pattern.sub('', parameter_text)
-
-    # strip leading and trailing white space
-    parameters = parameters.strip()
-
-    # strip the target
-    parameters = parameters.split()
-    target = parameters[0]
-    parameters = parameters[1:]
-
-    # gather public dependencies
-    public_dependencies = sort_dependencies(
-            gather_dependencies('PUBLIC', parameters))
-    private_dependencies = sort_dependencies(
-            gather_dependencies('PRIVATE', parameters))
-    interface_dependencies = sort_dependencies(
-            gather_dependencies('INTERFACE', parameters))
-
-    new_text = target
-    if public_dependencies is not None:
-        new_text = new_text + ' PUBLIC ' + ' '.join(public_dependencies)
-    if private_dependencies is not None:
-        new_text = new_text + ' PRIVATE ' + ' '.join(private_dependencies)
-    if interface_dependencies is not None:
-        new_text = new_text + ' INTERFACE ' + ' '.join(interface_dependencies)
-    new_text = new_text + ')'
-    print(new_text)
-    print('\n\n')
-
-    text = text.replace(parameter_text, new_text)
-    print(text)
-
     sys.exit()
