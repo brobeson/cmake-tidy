@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
+import line_limit
 import os
 import sys
 import parameter_sorting
@@ -31,6 +32,8 @@ if __name__ == '__main__':
 
     with open(arguments['files'], 'r') as f:
         text = f.read()
-    text = parameter_sorting.sort(text)
+    text = parameter_sorting.run(text)
+    text = line_limit.run(text)
+
     print(text)
     sys.exit()

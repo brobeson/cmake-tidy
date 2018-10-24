@@ -21,7 +21,7 @@ def _strip_comments(parameter_text):
     comment_pattern = re.compile('#.*\n')
     return comment_pattern.sub('', parameter_text)
 
-def sort(file_text):
+def run(file_text):
     start = file_text.find('target_link_libraries')
     if start < 0:
         return file_text
@@ -29,9 +29,6 @@ def sort(file_text):
     end = file_text.find(')', start)
     parameter_text = file_text[start + 1:end]
 
-    # strip comments
-    #comment_pattern = re.compile('#.*\n')
-    #parameters = comment_pattern.sub('', parameter_text)
     parameters = _strip_comments(parameter_text)
     parameters = parameters.strip()
     parameters = parameters.split()
@@ -56,9 +53,7 @@ def sort(file_text):
     if interface_dependencies is not None:
         sorted_parameter_text = sorted_parameter_text + ' INTERFACE ' \
                 + ' '.join(interface_dependencies)
-    sorted_parameter_text = sorted_parameter_text + ')'
-    #print(sorted_parameter_text)
-    #print('\n\n')
+    sorted_parameter_text = sorted_parameter_text
 
     file_text = file_text.replace(parameter_text, sorted_parameter_text)
     return file_text
