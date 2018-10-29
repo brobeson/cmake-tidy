@@ -12,6 +12,6 @@ python:
     - '3.6'
     - '3.7-dev'
 script:
-    - chmod 744 lint.sh && ./lint.sh
+    - ./lint.sh
     - cd unit_tests
     - python3 -m unittest discover
