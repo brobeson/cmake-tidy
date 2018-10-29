@@ -14,4 +14,4 @@ python:
 script:
     - chmod 744 lint.sh && ./lint.sh
     - cd unit_tests
-    - python3 cmake-tidy_test.py
+    - python3 -m unittest discover
