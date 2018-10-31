@@ -34,20 +34,21 @@ class FindConfigurationTest(unittest.TestCase):
 
     def test_find_in_parent(self):
         cwd = os.getcwd()
-        f = ct_core.find_cmake_tidy_configuration(cwd + '/test_project/modules/good.cmake')
-        self.assertEqual(f, cwd + '/test_project/.cmake-tidy')
+        f = ct_core.find_cmake_tidy_configuration(os.path.join(cwd,
+            'test_project/modules/good.cmake'))
+        self.assertEqual(f, os.path.join(cwd, 'test_project/.cmake-tidy'))
 
     def test_find_in_same(self):
         cwd = os.getcwd()
-        f = ct_core.find_cmake_tidy_configuration(cwd + '/test_project/same.cmake')
-        self.assertEqual(f, cwd + '/test_project/.cmake-tidy')
+        f = ct_core.find_cmake_tidy_configuration(os.path.join(cwd, 'test_project/same.cmake'))
+        self.assertEqual(f, os.path.join(cwd, 'test_project/.cmake-tidy'))
 
     def test_raise(self):
         cwd = os.getcwd()
         self.assertRaises(
             ValueError,
             ct_core.find_cmake_tidy_configuration,
-            cwd + '/test_project/modules/good.cmake')
+            os.path.join(cwd, 'bad.cmake'))
 
 if __name__ == '__main__':
     unittest.main()
