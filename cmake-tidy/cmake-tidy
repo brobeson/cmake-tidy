@@ -34,6 +34,7 @@ if __name__ == '__main__':
         text = f.read()
     text = parameter_sorting.run(text)
     text = line_limit.run(text)
+    with open(arguments['files'], 'w') as f:
+        f.write(text)
 
-    print(text)
     sys.exit()
