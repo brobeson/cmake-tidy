@@ -28,5 +28,6 @@ script:
       black --check .
       pylint bin/cmake-tidy
       pylint cmake_tidy
+      lizard --CCN=10 --length=20 --arguments=6 --warnings_only --modified
     fi
   #- chmod 744 lint.sh && ./lint.sh

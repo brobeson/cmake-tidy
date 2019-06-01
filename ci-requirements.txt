@@ -1,4 +1,5 @@
 # Pypi requirements for running CI. Contributors should install these, too.
 
 black
+lizard
 pylint
