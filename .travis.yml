@@ -26,5 +26,7 @@ script:
     if [[ "${TRAVIS_PYTHON_VERSION}" == "3.6" ]]
     then
       black --check .
+      pylint bin/cmake-tidy
+      pylint cmake_tidy
     fi
   #- chmod 744 lint.sh && ./lint.sh
