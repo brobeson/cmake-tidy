@@ -1,9 +1,20 @@
 #!/usr/bin/env python3
 
+"""Run the cmake-tidy command line tool."""
+
+# pylint: disable=C0103
+# Module name "cmake-tidy" doesn't conform to snake_case naming style
+# This is the command to run on the command line. In my experience, Linux
+# commands use dashes, not underscores.
+
 import sys
 
 sys.path.append(".")
-import cmake_tidy.cmake_tidy
+import cmake_tidy.cmake_tidy  # pylint: disable=C0413
+# Import "import cmake_tidy.cmake_tidy" should be placed at the top of the
+# module
+# sys is required to modify the module path in order to import cmake_tidy. See
+# issue #1 which was created to fix this.
 
 if __name__ == "__main__":
     sys.exit(cmake_tidy.cmake_tidy.main())
