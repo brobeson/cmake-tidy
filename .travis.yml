@@ -1,3 +1,5 @@
+# vim: nospell
+
 language: python
 git:
   quiet: true
@@ -11,6 +13,10 @@ python:
   - '3.5'
   - '3.6'
   - '3.7-dev'
+
+install:
+  - pip install --quiet --requirement ci-requirements.txt
+
 script:
   - black --check .
   #- chmod 744 lint.sh && ./lint.sh
