@@ -1,15 +1,16 @@
 language: python
 git:
-    quiet: true
-    submodules: false
+  quiet: true
+  submodules: false
 branches:
-    only:
-        - /.*/
+  only:
+    - /.*/
 python:
-    - '3.3'
-    - '3.4'
-    - '3.5'
-    - '3.6'
-    - '3.7-dev'
+  - '3.3'
+  - '3.4'
+  - '3.5'
+  - '3.6'
+  - '3.7-dev'
 script:
-    - chmod 744 lint.sh && ./lint.sh
+  - black --check .
+  #- chmod 744 lint.sh && ./lint.sh
