@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 import argparse
 import sys
 
@@ -17,6 +15,11 @@ def make_parser():
         nargs='*',
         help='The CMake files to analyze. The default is ./CMakeLists.txt')
     return parser
+
+def main():
+    print("Running cmake_lint.main()")
+    return 0
+
 
 if __name__ == '__main__':
     parser = make_parser()
