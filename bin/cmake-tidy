@@ -11,6 +11,7 @@ import sys
 
 sys.path.append(".")
 import cmake_tidy.cmake_tidy  # pylint: disable=C0413
+
 # Import "import cmake_tidy.cmake_tidy" should be placed at the top of the
 # module
 # sys is required to modify the module path in order to import cmake_tidy. See

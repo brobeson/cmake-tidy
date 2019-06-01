@@ -1,10 +1,14 @@
+"""
+The primary module within the cmake_tidy package.
+
+"""
+
 import argparse
-import sys
 
 __version__ = "0.0.0"
 
 
-def make_parser():
+def _make_parser():
     parser = argparse.ArgumentParser(
         description="Analyze CMake scripts for formatting and style mistakes."
     )
@@ -24,11 +28,8 @@ def make_parser():
 
 
 def main():
+    """Perform all the work of cleaning up CMake files."""
     print("Running cmake_lint.main()")
+    # parser = _make_parser()
+    # arguments = parser.parse_args()
     return 0
-
-
-if __name__ == "__main__":
-    parser = make_parser()
-    arguments = parser.parse_args()
-    sys.exit()
